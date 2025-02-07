@@ -1,0 +1,3 @@
+l5 O(n)
+l7 O(n)
+Total O(n²)
