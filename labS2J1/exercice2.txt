@@ -1,7 +1,7 @@
 12 O(n)
-15 O(k)
-19 O(q)
-24 O(s)
-38 O(c)
+15 O(1)
+19 O(n)
+24 O(n)
 
-Total O(n+k+q+s+c)
+
+Total O(n)

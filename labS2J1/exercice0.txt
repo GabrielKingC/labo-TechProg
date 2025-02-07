@@ -1,4 +1,4 @@
 5     O(n)
-20   O(k)
 
-Total O(n+k)
+
+Total O(n)
