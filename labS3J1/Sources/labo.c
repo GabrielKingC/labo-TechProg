@@ -1,4 +1,7 @@
-#include <stdio.h>
+#include <stdio.h> 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include "labo.h"
 
 /*
@@ -6,14 +9,13 @@
 */
 void insert(Node* currNode, void* newData) {
 
-	Node n = { 0 };
-	n.data = newData;
-	n.next = NULL;
+	Node* n = (Node*)allocate(sizeof(Node));
+	n->data = newData;
+	n->next = NULL;
 	if (currNode->next != NULL) {
-
-		n.next = currNode->next;
+		n->next = currNode->next;
 	}
-	currNode = n;
+	currNode->next = n;
 
 	return;
 }
@@ -22,6 +24,17 @@ void insert(Node* currNode, void* newData) {
 * Creer un noeud et l'ajouter apres le noeud head. Si le noeud head est vide(data) lui donner la nouvelle valeur passer.
 */
 void insertHead(Node* head, void* newData) {
+
+	Node* n = (Node*)allocate(sizeof(Node));
+	n->data = newData;
+	n->next = NULL;
+	if (head->next != NULL) {
+		n->next = head->next;
+	}
+	if (head->data == NULL) {
+		head->data = newData;
+	}
+	head->next = n;
 
 	return;
 }
@@ -32,7 +45,21 @@ void insertHead(Node* head, void* newData) {
 */
 Node* removeByData(Node* head, void* rmData) {
 
-	return;
+	Node* temp = head;
+	Node* last = (Node*)allocate(sizeof(Node));
+	while(temp != NULL && temp->data != rmData); {
+
+		last = temp;
+		temp = temp->next;
+	}
+	if (temp == NULL) {
+
+		printf("Error: Couldn't find the value");
+		return head;
+	}
+	last->next = temp->next;
+	temp = memset(temp, 0, sizeof(temp));
+	return last;
 }
 
 /*
@@ -41,7 +68,21 @@ Node* removeByData(Node* head, void* rmData) {
 */
 Node* removeByName(Node* head, char* name) {
 
-	return;
+	Node* temp = head;
+	Node* last = (Node*)allocate(sizeof(Node));
+	while(temp != NULL && temp->data != name); {
+
+		last = temp;
+		temp = temp->next;
+	}
+	if (temp == NULL) {
+
+		printf("Error: Couldn't find the value");
+		return head;
+	}
+	last->next = temp->next;
+	memset(temp, 0, sizeof(temp));
+	return last;
 }
 
 /*
@@ -49,5 +90,29 @@ Node* removeByName(Node* head, char* name) {
 */
 void sort(Node* head) {
 
+	Node* temp = (Node*)allocate(sizeof(Node));
+	Node* bubble = head;
+	bool change = false;
+	while (bubble != NULL) {
+
+		temp = bubble;
+		if (temp >= bubble->next) {
+
+			change = true;
+			bubble = bubble->next;
+			bubble->next = temp;
+		}
+
+		if (bubble->next == NULL && change == true) {
+
+			change = false;
+			bubble = head;
+		}
+		else
+		{
+			bubble = bubble->next;
+		}
+		
+	}
 	return;
 }
