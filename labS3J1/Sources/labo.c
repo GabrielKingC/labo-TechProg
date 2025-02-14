@@ -47,16 +47,17 @@ Node* removeByData(Node* head, void* rmData) {
 
 	Node* temp = head;
 	Node* last = (Node*)allocate(sizeof(Node));
-	while(temp != NULL && temp->data != rmData); {
+	while(temp->data != rmData) {
 
 		last = temp;
 		temp = temp->next;
-	}
-	if (temp == NULL) {
+		if (temp->next == NULL) {
 
-		printf("Error: Couldn't find the value");
-		return head;
+			printf("Error: Couldn't find the value");
+			return head;
+		}
 	}
+
 	last->next = temp->next;
 	temp = memset(temp, 0, sizeof(temp));
 	return last;
@@ -70,16 +71,17 @@ Node* removeByName(Node* head, char* name) {
 
 	Node* temp = head;
 	Node* last = (Node*)allocate(sizeof(Node));
-	while(temp != NULL && temp->data != name); {
+	while(temp->data != name) {
 
 		last = temp;
 		temp = temp->next;
-	}
-	if (temp == NULL) {
+		if (temp->next == NULL) {
 
-		printf("Error: Couldn't find the value");
-		return head;
+			printf("Error: Couldn't find the value");
+			return head;
+		}
 	}
+
 	last->next = temp->next;
 	memset(temp, 0, sizeof(temp));
 	return last;
@@ -93,13 +95,14 @@ void sort(Node* head) {
 	Node* temp = (Node*)allocate(sizeof(Node));
 	Node* bubble = head;
 	bool change = false;
-	while (bubble != NULL) {
+	while (bubble->next != NULL) {
 
 		temp = bubble;
-		if (temp >= bubble->next) {
+		if (temp->data >= bubble->next->data) {
 
 			change = true;
 			bubble = bubble->next;
+			temp->next = bubble->next;
 			bubble->next = temp;
 		}
 
