@@ -7,14 +7,13 @@
 */
 Stack* new_stack(size_t max_size)
 {
-	Stack* s = (Stack*)allocate(sizeof(s));
+	Stack* s = allocate(sizeof(Stack));
 
 	s->max_size = max_size;
-	s->top = 0;
-	s->data = allocate(sizeof(void*) * s->max_size);
+	s->top = -1;
+	s->data = allocate(sizeof(Person) * s->max_size);
 
 	return s;
-	//j'ai eu du mal avec la ligne 13 quand je mettais -1 j'avais un bug j'ai monter le code � ChatGPT et il m'a corrig�
 }
 
 /*
@@ -22,23 +21,15 @@ Stack* new_stack(size_t max_size)
 */
 void push(Stack* s, void* newData)
 {
-	if (s->top == s->max_size - 1)
-	{
-		printf("Stack overflow!\n");
-	}
-	else {
-		s->top = s->top + 1;
+	//top == 0
+	if (s-> top + 1 < s->max_size) {
+		s->top += 1;
+		//top == 1
 		s->data[s->top] = newData;
 	}
-
-	//if (s->top + 1 < s->max_size) {
-	//	s->top += 1;
-	//	s->data[s->top] = newData;
-	//}
-	//else {
-	//	//printf("Stack overflow!\n");
-	//	return;
-	//}
+	else {
+		return;
+	}
 }
 
 /*
@@ -46,20 +37,13 @@ void push(Stack* s, void* newData)
 */
 void* pop(Stack* s)
 {
-	if (s->top == -1)
+	void* out = NULL;
+	if (s->top >= 0)
 	{
-		return NULL;
-	}
-	else {
-		s->top = s->top - 1;
-		return s->data[s->top];
-	}
-	/*void* out = NULL;
-	if (s->top - 1 >= 0) {
 		out = s->data[s->top];
-		s->top -= 1;
+		s->top--;
 	}
-	return out;*/
+	return out;
 }
 
 /*
@@ -68,21 +52,11 @@ void* pop(Stack* s)
 void* peek(Stack* s)
 {
 
-	if (s->top == -1)
-	{
-		return NULL;
-	}
-	else {
-		return s->top;
-	}
-	/*void* out = pop(s);
+	void* out = pop(s);
 	if (out != NULL) {
 		push(s, out);
 	}
-	else {
-		return NULL;
-	}
-	return out;*/
+	return out;
 }
 
 /*
@@ -91,6 +65,25 @@ void* peek(Stack* s)
 */
 void reverseStack(Stack* s)
 {
+	int start = 0;
+	int end = s->top;
+	while (start < end)
+	{
+		int* temp = s->data[start];
+		s->data[start] = s->data[end];
+		s->data[end] = temp;
+
+		start++;
+		end--;
+	}
+
+	/*for (int i = 0; i < s->top; i++)
+	{
+		int* temp = s->data[i];
+		s->data[i] = s->data[s->top - i];
+		s->data[s->top - i] = temp;
+	}*/
+	//je sais pas pourquoi il passe pas avec la boucle for pourtant c'est la même logique
 }
 
 /*
@@ -100,5 +93,31 @@ void reverseStack(Stack* s)
 */
 void sortStack(Stack* s)
 {
+	if (s == NULL || s->top <= 0) {
+		return;
+	}
 
+	Stack* temp = allocate(sizeof(Stack));
+	temp->max_size = s->max_size;
+	temp->top = -1;
+	temp->data = allocate(sizeof(void*) * temp->max_size);
+
+	while(s->top >=0){
+		Person* current = (Person*)peek(s);
+		pop(s);
+
+		while (temp->top >= 0 && ((Person*)peek(temp))->age > current->age)
+		{
+			void* older = peek(temp);
+			pop(temp);
+			push(s, older);
+		}
+		push(temp, current);
+	}
+
+	while (temp->top >= 0) {
+		void* person = peek(temp);
+		pop(temp);
+		push(s, person);
+	}
 }
