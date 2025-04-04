@@ -18,6 +18,12 @@ void* stack_pop(Stack* s);
 * Vous devez definir une noeud que vous appelerez TreeNode. TreeNode va avoir une propriete data lui permettant de recevoir de l'information de different type. 
 * TreeNode a aussi deux propriete de type TreeNode nommer left et right.
 */
+typedef struct Node Node;
+typedef struct TreeNode{
+	void* data;
+	TreeNode* left;
+	TreeNode* right;
+}TreeNode;
 
 
 
@@ -43,12 +49,22 @@ long long fibonacci(int n);
 * Creer un Noeud, assigner lui la valeur de data, metter c'est reference a NULL et retourner le noeud.
 */
 TreeNode* tree_create_node(void* data);
+	
+
 
 /*
 * Ajouter le noeud  node dans la propriete left ou right qui est NULL de root. On priorise de gauche a droite. Si right et left son NULL on le met dans left.
 * Si jamais aucun des noeuds est NULL, ajouter rien.
 */
 void tree_add_node(TreeNode* root, TreeNode* node);
+	
+
+	
+		
+
+	
+		
+	
 
 /*
 * Programmer l'algorithme de depth first search afin de trouver la cle. Pour programmer cet algorithme, vous avez besoins d'une pile/stack, ca definition est fourni.
