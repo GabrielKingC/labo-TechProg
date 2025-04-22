@@ -1,5 +1,0 @@
-L10 O(n)
-L13 O(n)
-L31 O(n)
-Total O(n^2)
- 
